@@ -15,7 +15,7 @@ API RESTful para consulta de estatísticas dos indicados e vencedores da categor
    ```bash
    mvn spring-boot:run
    ```
-4. A API estará acessível em `http://localhost:8080/api/movies/producer-intervals`.
+4. A API estará acessível em `http://localhost:8081/api/movies/producer-intervals`.
 
 ## Como Executar os Testes de Integração
 Na raiz do projeto, execute:
