@@ -1,0 +1,45 @@
+2026-08-25T00:07:42.179-03:00  INFO 53824 --- [outsera] [restartedMain] b.com.teste.outsera.OutseraApplication   : Starting OutseraApplication using Java 25.0.2 with PID 53824 (C:\Users\wesle\Documents\datainfo\workspace\outsera\outsera\target\classes started by wesle in C:\Users\wesle\Documents\datainfo\workspace\outsera\outsera)
+2026-08-25T00:07:42.189-03:00  INFO 53824 --- [outsera] [restartedMain] b.com.teste.outsera.OutseraApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-08-25T00:07:42.263-03:00  INFO 53824 --- [outsera] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-08-25T00:07:42.263-03:00  INFO 53824 --- [outsera] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-08-25T00:07:43.028-03:00  INFO 53824 --- [outsera] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-08-25T00:07:43.097-03:00  INFO 53824 --- [outsera] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interface.
+2026-08-25T00:07:43.934-03:00  INFO 53824 --- [outsera] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-08-25T00:07:43.955-03:00  INFO 53824 --- [outsera] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-25T00:07:43.955-03:00  INFO 53824 --- [outsera] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-08-25T00:07:44.005-03:00  INFO 53824 --- [outsera] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1741 ms
+2026-08-25T00:07:44.240-03:00  INFO 53824 --- [outsera] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-08-25T00:07:44.318-03:00  INFO 53824 --- [outsera] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-08-25T00:07:44.859-03:00  INFO 53824 --- [outsera] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-08-25T00:07:44.905-03:00  INFO 53824 --- [outsera] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-25T00:07:45.101-03:00  INFO 53824 --- [outsera] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:raspberrydb user=SA
+2026-08-25T00:07:45.102-03:00  INFO 53824 --- [outsera] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-25T00:07:45.132-03:00  WARN 53824 --- [outsera] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-08-25T00:07:45.157-03:00  INFO 53824 --- [outsera] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:raspberrydb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: RASPBERRYDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-08-25T00:07:46.067-03:00  INFO 53824 --- [outsera] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-08-25T00:07:46.132-03:00  INFO 53824 --- [outsera] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-08-25T00:07:46.232-03:00  INFO 53824 --- [outsera] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-08-25T00:07:47.182-03:00  WARN 53824 --- [outsera] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-08-25T00:07:47.524-03:00  INFO 53824 --- [outsera] [restartedMain] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:raspberrydb'
+2026-08-25T00:07:47.589-03:00  INFO 53824 --- [outsera] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-08-25T00:07:47.597-03:00  INFO 53824 --- [outsera] [restartedMain] b.com.teste.outsera.OutseraApplication   : Started OutseraApplication in 6.04 seconds (process running for 6.974)
+2026-08-25T00:07:52.487-03:00  INFO 53824 --- [outsera] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-25T00:07:52.488-03:00  INFO 53824 --- [outsera] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-25T00:07:52.490-03:00  INFO 53824 --- [outsera] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-08-25T00:08:23.046-03:00  INFO 53824 --- [outsera] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-25T00:08:23.066-03:00  INFO 53824 --- [outsera] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-08-25T00:08:23.071-03:00  INFO 53824 --- [outsera] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-08-25T00:08:23.080-03:00  WARN 53824 --- [outsera] [SpringApplicationShutdownHook] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-240]
+2026-08-25T00:08:23.080-03:00  INFO 53824 --- [outsera] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-25T00:08:23.082-03:00  INFO 53824 --- [outsera] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

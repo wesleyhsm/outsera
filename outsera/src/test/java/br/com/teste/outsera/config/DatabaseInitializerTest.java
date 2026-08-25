@@ -26,23 +26,20 @@ class DatabaseInitializerTest {
     @Test
     @DisplayName("Deve ler o arquivo CSV de recursos e salvar os filmes corretamente no repositório")
     void shouldReadCsvFileAndSaveMoviesSuccessfully() throws Exception {
-        // Executa o inicializador que lerá o arquivo 'movielist.csv' real do classpath de teste/main
+
         databaseInitializer.run();
 
-        // Captura os objetos Movie enviados para o método save do repositório
         ArgumentCaptor<Movie> movieCaptor = ArgumentCaptor.forClass(Movie.class);
         verify(movieRepository, atLeastOnce()).save(movieCaptor.capture());
 
-        // Valida se os dados foram processados e populados
         assertThat(movieCaptor.getAllValues()).isNotEmpty();
 
-        // Obtém o primeiro filme processado para validar as propriedades estruturais do parser
         Movie firstMovie = movieCaptor.getAllValues().get(0);
         assertThat(firstMovie.getReleaseYear()).isNotNull();
         assertThat(firstMovie.getTitle()).isNotBlank();
         assertThat(firstMovie.getStudios()).isNotBlank();
         assertThat(firstMovie.getProducers()).isNotBlank();
-        // O campo winner deve ser true ou false baseado na coluna correspondente
+
         assertThat(firstMovie.getWinner()).isNotNull();
     }
 }

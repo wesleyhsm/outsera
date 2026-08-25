@@ -3,7 +3,8 @@ package br.com.teste.outsera.config;
 import br.com.teste.outsera.model.Movie;
 import br.com.teste.outsera.repository.MovieRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -21,8 +22,24 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ClassPathResource resource = new ClassPathResource("movielist.csv");
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources("classpath*:*");
+
+        Resource targetResource = null;
+        String targetName = "movielist.csv";
+
+        for (Resource resource : resources) {
+            if (resource.getFilename() != null && resource.getFilename().equalsIgnoreCase(targetName)) {
+                targetResource = resource;
+                break;
+            }
+        }
+
+        if (targetResource == null) {
+            throw new java.io.FileNotFoundException("Arquivo " + targetName + " não foi encontrado no classpath.");
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(targetResource.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
             br.readLine();
             while ((line = br.readLine()) != null) {

@@ -2,71 +2,97 @@ package br.com.teste.outsera.service;
 
 import br.com.teste.outsera.dto.ProducerAwardIntervalDTO;
 import br.com.teste.outsera.dto.ProducerRangeResponseDTO;
-import br.com.teste.outsera.model.Movie;
 import br.com.teste.outsera.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class AwardService {
 
     private final MovieRepository movieRepository;
+    private static final Pattern SPLIT_PATTERN = Pattern.compile(",\\s*|\\s+and\\s+");
 
     public AwardService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
 
     public ProducerRangeResponseDTO getProducerIntervals() {
-        List<Movie> winningMovies = movieRepository.findByWinnerTrue();
-        Map<String, List<Integer>> producerWins = new HashMap<>();
+        List<Object[]> rawData = movieRepository.findEssentialWinnerData();
+        if (rawData.isEmpty()) {
+            return new ProducerRangeResponseDTO(List.of(), List.of());
+        }
 
-        Pattern splitPattern = Pattern.compile(",\\s*|\\s+and\\s+");
+        Map<String, TreeSet<Integer>> producerWins = groupAndSortYears(rawData);
 
-        for (Movie movie : winningMovies) {
-            String cleanProducers = movie.getProducers().replace(", and", ",");
-            String[] names = splitPattern.split(cleanProducers);
+        List<ProducerAwardIntervalDTO> minList = new ArrayList<>();
+        List<ProducerAwardIntervalDTO> maxList = new ArrayList<>();
+
+        int[] globalBounds = { Integer.MAX_VALUE, Integer.MIN_VALUE };
+
+        for (Map.Entry<String, TreeSet<Integer>> entry : producerWins.entrySet()) {
+            TreeSet<Integer> years = entry.getValue();
+            if (years.size() < 2) continue;
+
+            computeExtremesInline(entry.getKey(), years, globalBounds, minList, maxList);
+        }
+
+        return new ProducerRangeResponseDTO(minList, maxList);
+    }
+
+    private Map<String, TreeSet<Integer>> groupAndSortYears(List<Object[]> rawData) {
+        Map<String, TreeSet<Integer>> producerWins = new HashMap<>();
+
+        for (Object[] row : rawData) {
+            Integer year = (Integer) row[0];
+            String producersStr = (String) row[1];
+
+            if (producersStr == null) continue;
+
+            String cleanProducers = producersStr.replace(", and", ",");
+            String[] names = SPLIT_PATTERN.split(cleanProducers);
 
             for (String name : names) {
                 String producerName = name.trim();
                 if (!producerName.isEmpty()) {
-                    producerWins.computeIfAbsent(producerName, k -> new ArrayList<>()).add(movie.getReleaseYear());
+
+                    producerWins.computeIfAbsent(producerName, k -> new TreeSet<>())
+                            .add(year);
                 }
             }
         }
+        return producerWins;
+    }
 
-        List<ProducerAwardIntervalDTO> intervals = new ArrayList<>();
+    private void computeExtremesInline(String producer, TreeSet<Integer> years, int[] bounds,
+                                       List<ProducerAwardIntervalDTO> minList, List<ProducerAwardIntervalDTO> maxList) {
 
-        for (Map.Entry<String, List<Integer>> entry : producerWins.entrySet()) {
-            List<Integer> years = entry.getValue();
-            if (years.size() < 2) continue;
-            Collections.sort(years);
+        Iterator<Integer> it = years.iterator();
+        int prev = it.next();
 
-            for (int i = 0; i < years.size() - 1; i++) {
-                int prev = years.get(i);
-                int next = years.get(i + 1);
-                int interval = next - prev;
-                intervals.add(new ProducerAwardIntervalDTO(entry.getKey(), interval, prev, next));
+        while (it.hasNext()) {
+            int next = it.next();
+            int interval = next - prev;
+            ProducerAwardIntervalDTO dto = new ProducerAwardIntervalDTO(producer, interval, prev, next);
+
+            if (interval < bounds[0]) {
+                bounds[0] = interval;
+                minList.clear();
+                minList.add(dto);
+            } else if (interval == bounds[0]) {
+                minList.add(dto);
             }
+
+            if (interval > bounds[1]) {
+                bounds[1] = interval;
+                maxList.clear();
+                maxList.add(dto);
+            } else if (interval == bounds[1]) {
+                maxList.add(dto);
+            }
+
+            prev = next;
         }
-
-        if (intervals.isEmpty()) {
-            return new ProducerRangeResponseDTO(List.of(), List.of());
-        }
-
-        int minInterval = intervals.stream().mapToInt(ProducerAwardIntervalDTO::interval).min().orElse(Integer.MAX_VALUE);
-        int maxInterval = intervals.stream().mapToInt(ProducerAwardIntervalDTO::interval).max().orElse(Integer.MIN_VALUE);
-
-        List<ProducerAwardIntervalDTO> minList = intervals.stream()
-                .filter(i -> i.interval() == minInterval)
-                .collect(Collectors.toList());
-
-        List<ProducerAwardIntervalDTO> maxList = intervals.stream()
-                .filter(i -> i.interval() == maxInterval)
-                .collect(Collectors.toList());
-
-        return new ProducerRangeResponseDTO(minList, maxList);
     }
 }
